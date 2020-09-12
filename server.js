@@ -9,6 +9,7 @@ app.get('/', (req, res) => {
 
 //API route
 app.get('/api/search', (req, res) => {
+  console.log("ddddddddddddd");
     scraper.youtube(req.query.q, req.query.page)
         .then(x => res.json(x))
         .catch(e => res.send(e));

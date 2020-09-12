@@ -2,6 +2,7 @@ const cheerio = require('cheerio');
 const request = require('request');
 
 async function youtube(query, page) {
+    console.log("query", query);
     return new Promise((resolve, reject) => {
         // Specify YouTube search url
         let url = `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`;
