@@ -5,7 +5,7 @@
     "main": "server.js",
     "author": "Akira Yoshino",
     "dependencies": {
-        "express": "latest",
+        "express": "*",
         "request": "latest",
         "cheerio": "latest"
     }
