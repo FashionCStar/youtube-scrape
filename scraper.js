@@ -30,7 +30,7 @@ async function youtube(query, page) {
                     json["estimatedResults"] = data.estimatedResults || "0";
                     let sectionLists = data.contents.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer.contents;
 
-                    console.log("response", data);
+                    console.log("response", data.contents.twoColumnSearchResultsRenderer.primaryContents);
                     // Loop through all objects and parse data according to type
                     sectionLists.forEach(sectionList => {
                         sectionList.itemSectionRenderer.contents.forEach(content => {
