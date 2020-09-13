@@ -31,7 +31,6 @@ async function youtube(query, page) {
 
                     // Loop through all objects and parse data according to type
                     sectionLists.forEach(sectionList => {
-                        console.log("response", sectionList);
                         if (sectionList.itemSectionRenderer) {
                             sectionList.itemSectionRenderer.contents.forEach(content => {
                                 try {
@@ -72,7 +71,7 @@ async function youtube(query, page) {
  */
 function parseOldFormat($, vid) {
     // Get video details
-    console.log("html template", $(vid));
+    console.log("html template", $(vid).parent().data);
     let $metainfo = $(vid).find(".yt-lockup-meta-info li");
     let $thumbnail = $(vid).find(".yt-thumb img");
     let video = {
