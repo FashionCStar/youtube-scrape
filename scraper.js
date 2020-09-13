@@ -10,11 +10,9 @@ async function youtube(query, page) {
         // Access YouTube search
         request(url, (error, response, html) => {
             // Check for errors
-            console.log('htmlllllll', html);
+var htmlContent = html;
 
-var htmlContent = '<html>Whatever</html>';
-
-fs.writeFile('/my-page.html', htmlContent, (error) => { /* handle error */ });
+fs.writeFile('/my-page.html', htmlContent, (error) => { console.log("errorrrrr", error); });
 
             if (!error && response.statusCode === 200) {
                 const $ = cheerio.load(html);
