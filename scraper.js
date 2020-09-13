@@ -10,18 +10,16 @@ async function youtube(query, page) {
         // Access YouTube search
         request(url, (error, response, html) => {
             // Check for errors
-var htmlContent = html;
-
-fs.writeFile('my-page.html', htmlContent, (error) => { 
-    console.log("errorrrrr", error); 
-    if (error) throw error;
-      console.log('saved file');
-});
-
             if (!error && response.statusCode === 200) {
                 const $ = cheerio.load(html);
                 let json = { results: [], version: require('./package.json').version };
 
+                fs.writeFile('my-page1.html', $, (error) => { 
+                    console.log("errorrrrr", error); 
+                    if (error) throw error;
+                      console.log('saved file');
+                });
+                
                 // First attempt to parse old youtube search result style
                 $(".yt-lockup-dismissable").each((index, vid) => {
                     json["parser"] = "html_format";
