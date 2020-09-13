@@ -7,7 +7,6 @@ async function youtube(query, page) {
         let url = `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`;
 
         // Access YouTube search
-    console.log("url", url);
         request(url, (error, response, html) => {
             // Check for errors
             if (!error && response.statusCode === 200) {
@@ -33,7 +32,6 @@ async function youtube(query, page) {
                     // Loop through all objects and parse data according to type
                     sectionLists.forEach(sectionList => {
                         console.log("response", sectionList);
-                        console.log("response111", sectionList.itemSectionRenderer);
                         if (sectionList.itemSectionRenderer) {
                             sectionList.itemSectionRenderer.contents.forEach(content => {
                                 try {
@@ -74,6 +72,7 @@ async function youtube(query, page) {
  */
 function parseOldFormat($, vid) {
     // Get video details
+    console.log("html template", $(vid));
     let $metainfo = $(vid).find(".yt-lockup-meta-info li");
     let $thumbnail = $(vid).find(".yt-thumb img");
     let video = {
