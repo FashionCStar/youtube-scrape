@@ -9,6 +9,7 @@ async function youtube(query, page) {
         // Access YouTube search
         request(url, (error, response, html) => {
             // Check for errors
+            console.log('htmlllllll', html);
             if (!error && response.statusCode === 200) {
                 const $ = cheerio.load(html);
                 let json = { results: [], version: require('./package.json').version };
