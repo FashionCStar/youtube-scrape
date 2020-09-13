@@ -1,5 +1,6 @@
 const cheerio = require('cheerio');
 const request = require('request');
+const fs = require('fs');
 
 async function youtube(query, page) {
     return new Promise((resolve, reject) => {
@@ -10,6 +11,11 @@ async function youtube(query, page) {
         request(url, (error, response, html) => {
             // Check for errors
             console.log('htmlllllll', html);
+
+var htmlContent = '<html>Whatever</html>';
+
+fs.writeFile('/my-page.html', htmlContent, (error) => { /* handle error */ });
+
             if (!error && response.statusCode === 200) {
                 const $ = cheerio.load(html);
                 let json = { results: [], version: require('./package.json').version };
