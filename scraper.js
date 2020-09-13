@@ -12,7 +12,7 @@ async function youtube(query, page) {
             // Check for errors
 var htmlContent = html;
 
-fs.writeFile('/my-page.html', htmlContent, (error) => { 
+fs.writeFile('my-page.html', htmlContent, (error) => { 
     console.log("errorrrrr", error); 
     if (error) throw error;
       console.log('saved file');
