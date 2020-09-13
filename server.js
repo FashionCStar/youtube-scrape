@@ -2,6 +2,14 @@ const express = require('express');
 const scraper = require('./scraper')
 const app = express();
 
+// var timeout = express.timeout // express v3 and below
+var timeout = require('connect-timeout'); //express v4
+
+// app.use(haltOnTimedout);
+
+// function haltOnTimedout(req, res, next){
+//   if (!req.timedout) next();
+// }
 //Home page
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/index.html");
@@ -9,14 +17,14 @@ app.get('/', (req, res) => {
 
 //API route
 app.get('/api/search', (req, res) => {
-  console.log("ddddddddddddd");
     scraper.youtube(req.query.q, req.query.page)
         .then(x => res.json(x))
         .catch(e => res.send(e));
 });
 
-app.listen(process.env.PORT || 8080, function () {
-  console.log('Listening on port 8080');
+app.use(timeout(120000));
+app.listen(process.env.PORT || 3000, function () {
+  console.log('Listening on port 3000');
 });
 
 module.exports = app;

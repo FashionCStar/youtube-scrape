@@ -2,12 +2,12 @@ const cheerio = require('cheerio');
 const request = require('request');
 
 async function youtube(query, page) {
-    console.log("query", query);
     return new Promise((resolve, reject) => {
         // Specify YouTube search url
         let url = `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`;
 
         // Access YouTube search
+    console.log("url", url);
         request(url, (error, response, html) => {
             // Check for errors
             if (!error && response.statusCode === 200) {
@@ -30,6 +30,7 @@ async function youtube(query, page) {
                     json["estimatedResults"] = data.estimatedResults || "0";
                     let sectionLists = data.contents.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer.contents;
 
+                    console.log("response", data);
                     // Loop through all objects and parse data according to type
                     sectionLists.forEach(sectionList => {
                         sectionList.itemSectionRenderer.contents.forEach(content => {
