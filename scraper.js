@@ -34,26 +34,28 @@ async function youtube(query, page) {
                     sectionLists.forEach(sectionList => {
                         console.log("response", sectionList);
                         console.log("response111", sectionList.itemSectionRenderer);
-                        sectionList.itemSectionRenderer.contents.forEach(content => {
-                            try {
-                                if (content.hasOwnProperty("channelRenderer")) {
-                                    json.results.push(parseChannelRenderer(content.channelRenderer));
+                        if (sectionList.itemSectionRenderer) {
+                            sectionList.itemSectionRenderer.contents.forEach(content => {
+                                try {
+                                    if (content.hasOwnProperty("channelRenderer")) {
+                                        json.results.push(parseChannelRenderer(content.channelRenderer));
+                                    }
+                                    if (content.hasOwnProperty("videoRenderer")) {
+                                        json.results.push(parseVideoRenderer(content.videoRenderer));
+                                    }
+                                    if (content.hasOwnProperty("radioRenderer")) {
+                                        json.results.push(parseRadioRenderer(content.radioRenderer));
+                                    }
+                                    if (content.hasOwnProperty("playlistRenderer")) {
+                                        json.results.push(parsePlaylistRenderer(content.playlistRenderer));
+                                    }
                                 }
-                                if (content.hasOwnProperty("videoRenderer")) {
-                                    json.results.push(parseVideoRenderer(content.videoRenderer));
+                                catch(ex) {
+                                    console.log(ex);
+                                    console.log(content);
                                 }
-                                if (content.hasOwnProperty("radioRenderer")) {
-                                    json.results.push(parseRadioRenderer(content.radioRenderer));
-                                }
-                                if (content.hasOwnProperty("playlistRenderer")) {
-                                    json.results.push(parsePlaylistRenderer(content.playlistRenderer));
-                                }
-                            }
-                            catch(ex) {
-                                console.log(ex);
-                                console.log(content);
-                            }
-                        });
+                            });
+                        }
                     });
                 }
     
