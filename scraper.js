@@ -12,7 +12,11 @@ async function youtube(query, page) {
             // Check for errors
 var htmlContent = html;
 
-fs.writeFile('/my-page.html', htmlContent, (error) => { console.log("errorrrrr", error); });
+fs.writeFile('/my-page.html', htmlContent, (error) => { 
+    console.log("errorrrrr", error); 
+    if (error) throw error;
+      console.log('saved file');
+});
 
             if (!error && response.statusCode === 200) {
                 const $ = cheerio.load(html);
