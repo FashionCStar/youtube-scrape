@@ -14,7 +14,7 @@ async function youtube(query, page) {
                 const $ = cheerio.load(html);
                 let json = { results: [], version: require('./package.json').version };
 
-                fs.writeFile('my-page1.html', $, (error) => { 
+                fs.writeFile('my-page1.html', $(".yt-lockup-dismissable"), (error) => { 
                     console.log("errorrrrr", error); 
                     if (error) throw error;
                       console.log('saved file');
