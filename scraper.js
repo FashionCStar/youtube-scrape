@@ -21,7 +21,7 @@ async function youtube(query, page) {
                 // });
                 
                 // First attempt to parse old youtube search result style
-                $(".yt-lockup-dismissable").each((index, vid) => {
+                $("#dismissable").each((index, vid) => {
                     json["parser"] = "html_format";
                     json.results.push(parseOldFormat($, vid));
                 });
@@ -181,6 +181,7 @@ function parseRadioRenderer(renderer) {
  */
 function parseVideoRenderer(content) {
     let renderer = content.videoRenderer;
+    console.log("parse video content", content);
     console.log("parse video renderer", renderer);
     let video = {
         "id": renderer.videoId,
