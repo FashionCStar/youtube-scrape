@@ -14,18 +14,18 @@ async function youtube(query, page) {
                 const $ = cheerio.load(html);
                 let json = { results: [], version: require('./package.json').version };
 
-                fs.writeFile('my-page1.html', $(".yt-lockup-dismissable"), (error) => { 
-                    console.log("errorrrrr", error); 
-                    if (error) throw error;
-                      console.log('saved file');
-                });
+                // fs.writeFile('my-page1.html', $(".yt-lockup-dismissable"), (error) => { 
+                //     console.log("errorrrrr", error); 
+                //     if (error) throw error;
+                //       console.log('saved file');
+                // });
                 
                 // First attempt to parse old youtube search result style
                 $(".yt-lockup-dismissable").each((index, vid) => {
                     json["parser"] = "html_format";
                     json.results.push(parseOldFormat($, vid));
                 });
-
+console.log("json result", json);
                 // If that fails, we have to parse new format from json data in html script tag
                 if (!json.results.length) {
                     json["parser"] = "json_format";
