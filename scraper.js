@@ -45,7 +45,7 @@ console.log("json result", json);
                                         json.results.push(parseChannelRenderer(content.channelRenderer));
                                     }
                                     if (content.hasOwnProperty("videoRenderer")) {
-                                        json.results.push(parseVideoRenderer(content.videoRenderer));
+                                        json.results.push(parseVideoRenderer(content));
                                     }
                                     if (content.hasOwnProperty("radioRenderer")) {
                                         json.results.push(parseRadioRenderer(content.radioRenderer));
@@ -111,7 +111,7 @@ function parseOldFormat($, vid) {
  */
 function parseChannelRenderer(renderer) {
     
-console.log("parse channel renderer", renderer);
+// console.log("parse channel renderer", renderer);
     let channel = {
         "id": renderer.channelId,
         "title": renderer.title.simpleText,
@@ -179,8 +179,9 @@ function parseRadioRenderer(renderer) {
  * @param {object} renderer - The video renderer
  * @returns object with data to return for this video
  */
-function parseVideoRenderer(renderer) {
-    // console.log("parse video renderer", renderer);
+function parseVideoRenderer(content) {
+    let renderer = content.videoRenderer;
+    console.log("parse video renderer", renderer);
     let video = {
         "id": renderer.videoId,
         "title": renderer.title.runs.reduce(comb, ""),
