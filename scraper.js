@@ -110,6 +110,8 @@ function parseOldFormat($, vid) {
  * @returns object with data to return for this channel
  */
 function parseChannelRenderer(renderer) {
+    
+console.log("parse channel renderer", renderer);
     let channel = {
         "id": renderer.channelId,
         "title": renderer.title.simpleText,
@@ -132,6 +134,7 @@ function parseChannelRenderer(renderer) {
  * @returns object with data to return for this playlist
  */
 function parsePlaylistRenderer(renderer) {
+    console.log("parse playlist renderer", renderer);
     let thumbnails = renderer.thumbnailRenderer.playlistVideoThumbnailRenderer.thumbnail.thumbnails;
     let playlist = {
         "id": renderer.playlistId,
@@ -155,6 +158,7 @@ function parsePlaylistRenderer(renderer) {
  * @returns object with data to return for this mix
  */
 function parseRadioRenderer(renderer) {
+    console.log("parse radio renderer", renderer);
     let radio = {
         "id": renderer.playlistId,
         "title": renderer.title.simpleText,
@@ -176,6 +180,7 @@ function parseRadioRenderer(renderer) {
  * @returns object with data to return for this video
  */
 function parseVideoRenderer(renderer) {
+    console.log("parse video renderer", renderer);
     let video = {
         "id": renderer.videoId,
         "title": renderer.title.runs.reduce(comb, ""),
