@@ -8,13 +8,21 @@ const sleep = seconds =>
 
 async function youtube(query, pageNum) {
     const browser = await puppeteer.launch();
-    console.log("browser", browser);
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });
-    await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
+    try {
+        await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
+    } catch (e) {
+        console.log("page error", e);
+    }
     // await page.goto(
     //     `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`, {waitUntil: 'networkidle'});
-    console.log("page", page);
+    console.log("page", page.content);
+    fs.writeFile('my-page1.html', page.content, (error) => { 
+        console.log("errorrrrr", error); 
+        if (error) throw error;
+            console.log('saved file');
+    });
     const results = {};
 
     try {
@@ -23,11 +31,6 @@ async function youtube(query, pageNum) {
         await sleep(1);
 
         let html = await page.content();
-        fs.writeFile('my-page1.html', html, (error) => { 
-            console.log("errorrrrr", error); 
-            if (error) throw error;
-                console.log('saved file');
-        });
         results[query] = parse(html);
 
     } catch (e) {
