@@ -14,6 +14,8 @@
         "connect-timeout": "^1.9.0",
         "express": "latest",
         "fs": "0.0.1-security",
+        "puppeteer": "^5.3.0",
+        "puppeteer-core": "^5.3.0",
         "request": "latest"
     }
 }
