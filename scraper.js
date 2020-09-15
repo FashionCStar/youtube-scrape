@@ -11,6 +11,7 @@ async function youtube(query, pageNum) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });
+    console.log("page info", page);
     try {
         await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
     } catch (e) {
@@ -25,7 +26,6 @@ async function youtube(query, pageNum) {
         await sleep(1);
 
         let html = await page.content();
-        console.log("page info", page);
         results = parse(html);
 
     } catch (e) {
