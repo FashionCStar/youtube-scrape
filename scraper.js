@@ -19,7 +19,7 @@ async function youtube(query, pageNum) {
         await sleep(1);
 
         let html = await page.content();
-        console.log("ddddddddddddddddd");
+        console.log("ddddddddddddddddd", html);
         results = parse(html);
 
     } catch (e) {
