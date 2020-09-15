@@ -25,7 +25,6 @@ async function youtube(query, pageNum) {
         await sleep(1);
 
         let html = await page.content();
-        // console.log("page", html);
         results = parse(html);
 
     } catch (e) {
@@ -47,7 +46,8 @@ function parse(html) {
         const video_id = url.replace("/watch?v=", "");
         results.push({
             id : video_id,
-            link: $(link).find('#video-title').attr('href'),
+            link: url,
+            thumbnail_src: $(link).find('#thumbnail #img').attr('src'),
             title: $(link).find('#video-title').text(),
             snippet: $(link).find('#description-text').text(),
             channel: $(link).find('#byline-container a').text(),
