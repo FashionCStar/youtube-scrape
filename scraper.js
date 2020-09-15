@@ -1,12 +1,13 @@
 const cheerio = require('cheerio');
 const request = require('request');
 const fs = require('fs');
+const puppeteer = require('puppeteer');
 
 const sleep = seconds =>
     new Promise(resolve => setTimeout(resolve, (seconds || 1) * 1000));
 
 async function youtube(browser, query, pageNum) {
-    // const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });
     await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);

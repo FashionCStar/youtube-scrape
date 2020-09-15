@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
 
 //API route
 app.get('/api/search', async (req, res) => {
-  const browser = await puppeteer.launch();
   scraper.youtube(browser, req.query.q, req.query.page)
         .then(x => res.json(x))
         .catch(e => res.send(e));
