@@ -11,14 +11,14 @@ async function youtube(query, pageNum) {
     console.log("browser", browser);
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });
-    console.log("page", page);
     await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
     // await page.goto(
     //     `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`, {waitUntil: 'networkidle'});
+    console.log("page", page);
     const results = {};
 
     try {
-        await page.waitForFunction(`document.title.indexOf('${keyword}') !== -1`, { timeout: 5000 });
+        await page.waitForFunction(`document.title.indexOf('${query}') !== -1`, { timeout: 5000 });
         await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 5000 });
         await sleep(1);
 
@@ -28,10 +28,10 @@ async function youtube(query, pageNum) {
             if (error) throw error;
                 console.log('saved file');
         });
-        results[keyword] = parse(html);
+        results[query] = parse(html);
 
     } catch (e) {
-        console.error(`Problem with scraping ${keyword}: ${e}`);
+        console.error(`Problem with scraping ${query}: ${e}`);
     }
     // fs.writeFile('my-page1.html', $("#page-manager"), (error) => { 
     //     console.log("errorrrrr", error); 
