@@ -18,11 +18,10 @@ app.get('/', (req, res) => {
 
 //API route
 app.get('/api/search', async (req, res) => {
-  scraper.youtube(browser, req.query.q, req.query.page)
+  scraper.youtube(req.query.q, req.query.page)
         .then(x => res.json(x))
         .catch(e => res.send(e));
         
-  await browser.close();
 });
 
 app.use(timeout(120000));

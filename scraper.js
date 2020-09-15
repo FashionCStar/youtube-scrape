@@ -6,7 +6,7 @@ const puppeteer = require('puppeteer');
 const sleep = seconds =>
     new Promise(resolve => setTimeout(resolve, (seconds || 1) * 1000));
 
-async function youtube(browser, query, pageNum) {
+async function youtube(query, pageNum) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });
@@ -36,6 +36,7 @@ async function youtube(browser, query, pageNum) {
     //     if (error) throw error;
     //         console.log('saved file');
     // });
+    await browser.close();
     return results;
 }
 
