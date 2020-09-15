@@ -3,11 +3,11 @@ const request = require('request');
 const fs = require('fs');
 const puppeteer = require('puppeteer-core');
 
-async function youtube(query, page) {
+async function youtube(query, pageNum) {
     const browser = await puppeteer.launch();
-    const page1 = await browser.newPage();
-    await page1.goto(
-        `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`, {waitUntil: 'networkidle'});
+    const page = await browser.newPage();
+    await page.goto(
+        `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${pageNum}` : ''}`, {waitUntil: 'networkidle'});
     const html = await page.evaluate(() => document.querySelector('*').outerHTML);
 
     // let html = await page1.content();
