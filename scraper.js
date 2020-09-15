@@ -12,8 +12,8 @@ async function youtube(query, pageNum) {
         const page = await browser.newPage();
         await page.setViewport({ width: 1280, height: 800 });
         await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
-        await page.waitForFunction(`document.title.indexOf('${query}') !== -1`, { timeout: 1000 });
-        await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 1000 });
+        await page.waitForFunction(`document.title.indexOf('${query}') !== -1`, { timeout: 2000 });
+        await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 2000 });
         await sleep(1);
 
         let html = await page.content();
