@@ -41,7 +41,7 @@ function parse(html) {
         results.push({
             id : video_id,
             link: url,
-            thumbnail_src: $(link).find('#thumbnail #img').attr('src'),
+            thumbnail_src: 'https://i.ytimg.com/vi/'+video_id+'/hqdefault.jpg',
             title: $(link).find('#video-title').text(),
             duration: $(link).find('#overlays ytd-thumbnail-overlay-time-status-renderer span').text().replace("\n", "").replace(/\s/g, ''),
             snippet: $(link).find('#description-text').text(),
