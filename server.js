@@ -1,8 +1,8 @@
 const express = require('express');
 const scraper = require('./scraper')
-const app = express();
-const puppeteer = require('puppeteer');
+const cors = require('cors');
 
+const app = express();
 app.use(cors())
 
 // var timeout = express.timeout // express v3 and below
