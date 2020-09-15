@@ -3,7 +3,6 @@ const request = require('request');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 
-const all_videos = new Set();
 const sleep = seconds =>
     new Promise(resolve => setTimeout(resolve, (seconds || 1) * 1000));
 
@@ -28,6 +27,8 @@ async function youtube(query, pageNum) {
 }
 
 function parse(html) {
+    
+    const all_videos = new Set();
     // load the page source into cheerio
     const $ = cheerio.load(html);
 
