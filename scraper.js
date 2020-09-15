@@ -21,11 +21,11 @@ async function youtube(query, pageNum) {
         let html = await page.content();
         results = parse(html);
 
+        await browser.close();
+        return results;
     } catch (e) {
         console.error(`Problem with scraping ${query}: ${e}`);
     }
-    await browser.close();
-    return results;
 }
 
 function parse(html) {
@@ -38,7 +38,6 @@ function parse(html) {
         const url = $(link).find('#video-title').attr('href');
         "/watch?v=yhS9LnDoo_w"
         const video_id = url.replace("/watch?v=", "");
-        console.log("videossss", video_id);
         results.push({
             id : video_id,
             link: url,
@@ -69,6 +68,7 @@ function parse(html) {
         }
     }
 
+    console.log("result", cleaned);
     return {
         time: (new Date()).toUTCString(),
         results: cleaned,
