@@ -14,11 +14,11 @@ async function youtube(query, page) {
                 const $ = cheerio.load(html);
                 let json = { results: [], version: require('./package.json').version };
 
-                // fs.writeFile('my-page1.html', $(".yt-lockup-dismissable"), (error) => { 
-                //     console.log("errorrrrr", error); 
-                //     if (error) throw error;
-                //       console.log('saved file');
-                // });
+                fs.writeFile('my-page1.html', $("ytd-video-renderer"), (error) => { 
+                    console.log("errorrrrr", error); 
+                    if (error) throw error;
+                      console.log('saved file');
+                });
                 
                 // First attempt to parse old youtube search result style
                 $("ytd-video-renderer").each((index, vid) => {
@@ -45,7 +45,7 @@ console.log("json result", json);
                                         json.results.push(parseChannelRenderer(content.channelRenderer));
                                     }
                                     if (content.hasOwnProperty("videoRenderer")) {
-                                        json.results.push(parseVideoRenderer(content));
+                                        json.results.push(parseVideoRenderer(content.videoRenderer));
                                     }
                                     if (content.hasOwnProperty("radioRenderer")) {
                                         json.results.push(parseRadioRenderer(content.radioRenderer));
@@ -179,10 +179,8 @@ function parseRadioRenderer(renderer) {
  * @param {object} renderer - The video renderer
  * @returns object with data to return for this video
  */
-function parseVideoRenderer(content) {
-    let renderer = content.videoRenderer;
-    console.log("parse video content", content);
-    console.log("parse video renderer", renderer);
+function parseVideoRenderer(renderer) {
+    // let renderer = content.videoRenderer;
     let video = {
         "id": renderer.videoId,
         "title": renderer.title.runs.reduce(comb, ""),
