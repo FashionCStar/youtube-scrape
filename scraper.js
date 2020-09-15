@@ -19,8 +19,6 @@ async function youtube(query, pageNum) {
     // await page.goto(
     //     `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`, {waitUntil: 'networkidle'});
 
-    const results = {};
-
     try {
         await page.waitForFunction(`document.title.indexOf('${query}') !== -1`, { timeout: 2000 });
         await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 2000 });
@@ -28,7 +26,7 @@ async function youtube(query, pageNum) {
 
         let html = await page.content();
         // console.log("page", html);
-        results[query] = parse(html);
+        results = parse(html);
 
     } catch (e) {
         console.error(`Problem with scraping ${query}: ${e}`);
