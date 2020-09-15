@@ -13,10 +13,11 @@ async function youtube(query, pageNum) {
     } catch (e) {
         console.log("browser error", e);
     }
-    const page = await browser.newPage();
-    await page.setViewport({ width: 1280, height: 800 });
     try {
+        const page = await browser.newPage();
+        await page.setViewport({ width: 1280, height: 800 });
         await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
+        console.log("ccccccccccc");
     } catch (e) {
         console.log("page error", e);
     }
@@ -29,6 +30,7 @@ async function youtube(query, pageNum) {
         await sleep(1);
 
         let html = await page.content();
+        console.log("ddddddddddddddddd");
         results = parse(html);
 
     } catch (e) {
