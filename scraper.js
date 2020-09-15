@@ -49,7 +49,7 @@ function parse(html) {
             link: url,
             thumbnail_src: $(link).find('#thumbnail #img').attr('src'),
             title: $(link).find('#video-title').text(),
-            duration: $(link).find('#overlays span:nth-child(0)').text(),
+            duration: $(link).find('#overlays ytd-thumbnail-overlay-time-status-renderer span').text(),
             snippet: $(link).find('#description-text').text(),
             channel: $(link).find('#byline-container a').text(),
             channel_link: $(link).find('#byline-container a').attr('href'),
