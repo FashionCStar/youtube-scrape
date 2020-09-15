@@ -28,7 +28,7 @@ async function youtube(query, pageNum) {
 
         let html = await page.content();
         // console.log("page", html);
-        results = parse(html);
+        results[query] = parse(html);
 
     } catch (e) {
         console.error(`Problem with scraping ${query}: ${e}`);
