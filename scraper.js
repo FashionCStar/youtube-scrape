@@ -9,6 +9,7 @@ const sleep = seconds =>
 
 async function youtube(query, pageNum) {
     const browser = await puppeteer.launch();
+    console.log("browser info", browser);
     const page = await browser.newPage();
     console.log("page info", page);
     await page.setViewport({ width: 1280, height: 800 });
