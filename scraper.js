@@ -9,13 +9,11 @@ const sleep = seconds =>
 
 async function youtube(query, pageNum) {
     try {
-    const browser = await puppeteer.launch();
-        console.log("browser info", browser);
+        const browser = await puppeteer.launch();
     } catch (e) {
         console.log("browser error", e);
     }
     const page = await browser.newPage();
-    console.log("page info", page);
     await page.setViewport({ width: 1280, height: 800 });
     try {
         await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
