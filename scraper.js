@@ -18,12 +18,7 @@ async function youtube(query, pageNum) {
     }
     // await page.goto(
     //     `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`, {waitUntil: 'networkidle'});
-    console.log("page", page.content);
-    fs.writeFile('my-page1.html', page.content, (error) => { 
-        console.log("errorrrrr", error); 
-        if (error) throw error;
-            console.log('saved file');
-    });
+
     const results = {};
 
     try {
@@ -32,6 +27,12 @@ async function youtube(query, pageNum) {
         await sleep(1);
 
         let html = await page.content();
+        console.log("page", html);
+        fs.writeFile('my-page1.html', html, (error) => { 
+            console.log("errorrrrr", error); 
+            if (error) throw error;
+                console.log('saved file');
+        });
         results[query] = parse(html);
 
     } catch (e) {
