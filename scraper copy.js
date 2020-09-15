@@ -1,82 +1,94 @@
 const cheerio = require('cheerio');
 const request = require('request');
 const fs = require('fs');
-
-const sleep = seconds =>
-    new Promise(resolve => setTimeout(resolve, (seconds || 1) * 1000));
+const puppeteer = require('puppeteer-core');
 
 async function youtube(query, pageNum) {
     const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setViewport({ width: 1280, height: 800 });
-    await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
-    // await page.goto(
-    //     `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`, {waitUntil: 'networkidle'});
-    const results = {};
+    const page1 = await browser.newPage();
+    await page1.goto(
+        `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${pageNum}` : ''}`, {waitUntil: 'networkidle'});
+    const html = await page1.evaluate(() => document.querySelector('*').outerHTML);
 
-    try {
-        await page.waitForFunction(`document.title.indexOf('${keyword}') !== -1`, { timeout: 5000 });
-        await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 5000 });
-        await sleep(1);
+    // let html = await page1.content();
 
-        let html = await page.content();
-        fs.writeFile('my-page1.html', $("#page-manager"), (error) => { 
-            console.log("errorrrrr", error); 
-            if (error) throw error;
-                console.log('saved file');
-        });
-        results[keyword] = parse(html);
-
-    } catch (e) {
-        console.error(`Problem with scraping ${keyword}: ${e}`);
-    }
-    // fs.writeFile('my-page1.html', $("#page-manager"), (error) => { 
-    //     console.log("errorrrrr", error); 
-    //     if (error) throw error;
-    //         console.log('saved file');
+    // Get the "viewport" of the page, as reported by the page.
+    // await page.evaluate(() => {
+    //     document.querySelector('button[type=submit]').click();
     // });
-    await browser.close();
-    return results;
-}
-
-function parse(html) {
-    // load the page source into cheerio
-    const $ = cheerio.load(html);
-
-    // perform queries
-    const results = [];
-    $('#contents ytd-video-renderer,#contents ytd-grid-video-renderer').each((i, link) => {
-        results.push({
-            link: $(link).find('#video-title').attr('href'),
-            title: $(link).find('#video-title').text(),
-            snippet: $(link).find('#description-text').text(),
-            channel: $(link).find('#byline-container a').text(),
-            channel_link: $(link).find('#byline-container a').attr('href'),
-            num_views: $(link).find('#metadata-line span:nth-child(1)').text(),
-            release_date: $(link).find('#metadata-line span:nth-child(2)').text(),
-        })
+    
+    console.log('html contents:', html);
+    fs.writeFile('my-page1.html', html, (error) => { 
+        console.log("errorrrrr", error); 
+        if (error) throw error;
+            console.log('saved file');
     });
+    await browser.close();
+//     return new Promise((resolve, reject) => {
+//         // Specify YouTube search url
+//         let url = `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`;
 
-    const cleaned = [];
-    for (var i=0; i < results.length; i++) {
-        let res = results[i];
-        if (res.link && res.link.trim() && res.title && res.title.trim()) {
-            res.title = res.title.trim();
-            res.snippet = res.snippet.trim();
-            res.rank = i+1;
+//         // Access YouTube search
+//         request(url, (error, response, html) => {
+//             // Check for errors
+//             if (!error && response.statusCode === 200) {
+//                 const $ = cheerio.load(html);
+//                 let json = { results: [], version: require('./package.json').version };
 
-            // check if this result has been used before
-            if (all_videos.has(res.title) === false) {
-                cleaned.push(res);
-            }
-            all_videos.add(res.title);
-        }
-    }
+//                 fs.writeFile('my-page1.html', $("#page-manager"), (error) => { 
+//                     console.log("errorrrrr", error); 
+//                     if (error) throw error;
+//                       console.log('saved file');
+//                 });
+                
+//                 // First attempt to parse old youtube search result style
+//                 $("ytd-video-renderer").each((index, vid) => {
+//                     json["parser"] = "html_format";
+//                     json.results.push(parseOldFormat($, vid));
+//                 });
+// console.log("json result", json);
+//                 // If that fails, we have to parse new format from json data in html script tag
+//                 if (!json.results.length) {
+//                     json["parser"] = "json_format";
 
-    return {
-        time: (new Date()).toUTCString(),
-        results: cleaned,
-    }
+//                     // Get script json data from html to parse
+//                     let data = html.substring(html.indexOf("ytInitialData") + 17);
+//                     data = JSON.parse(data.substring(0, data.indexOf('window["ytInitialPlayerResponse"]') - 6));
+//                     json["estimatedResults"] = data.estimatedResults || "0";
+//                     let sectionLists = data.contents.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer.contents;
+
+//                     // Loop through all objects and parse data according to type
+//                     sectionLists.forEach(sectionList => {
+//                         if (sectionList.itemSectionRenderer) {
+//                             sectionList.itemSectionRenderer.contents.forEach(content => {
+//                                 try {
+//                                     if (content.hasOwnProperty("channelRenderer")) {
+//                                         json.results.push(parseChannelRenderer(content.channelRenderer));
+//                                     }
+//                                     if (content.hasOwnProperty("videoRenderer")) {
+//                                         json.results.push(parseVideoRenderer(content.videoRenderer));
+//                                     }
+//                                     if (content.hasOwnProperty("radioRenderer")) {
+//                                         json.results.push(parseRadioRenderer(content.radioRenderer));
+//                                     }
+//                                     if (content.hasOwnProperty("playlistRenderer")) {
+//                                         json.results.push(parsePlaylistRenderer(content.playlistRenderer));
+//                                     }
+//                                 }
+//                                 catch(ex) {
+//                                     console.log(ex);
+//                                     console.log(content);
+//                                 }
+//                             });
+//                         }
+//                     });
+//                 }
+    
+//                 return resolve(json);
+//             }
+//             resolve({ error: error });
+//         });
+//     });
 }
 
 /**
