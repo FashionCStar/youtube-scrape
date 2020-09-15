@@ -20,8 +20,8 @@ async function youtube(query, pageNum) {
     //     `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`, {waitUntil: 'networkidle'});
 
     try {
-        await page.waitForFunction(`document.title.indexOf('${query}') !== -1`, { timeout: 2000 });
-        await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 2000 });
+        await page.waitForFunction(`document.title.indexOf('${query}') !== -1`, { timeout: 1000 });
+        await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 1000 });
         await sleep(1);
 
         let html = await page.content();
