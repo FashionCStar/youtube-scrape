@@ -13,7 +13,6 @@ async function youtube(query, pageNum) {
         const page = await browser.newPage();
         await page.setViewport({ width: 1280, height: 800 });
         await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
-        console.log("ccccccccccc");
         await page.waitForFunction(`document.title.indexOf('${query}') !== -1`, { timeout: 1000 });
         await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 1000 });
         await sleep(1);
@@ -49,7 +48,7 @@ function parse(html) {
             channel_link: $(link).find('#byline-container a').attr('href'),
             num_views: $(link).find('#metadata-line span:nth-child(1)').text(),
             release_date: $(link).find('#metadata-line span:nth-child(2)').text(),
-        })
+       })
     });
 
     const cleaned = [];

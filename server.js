@@ -3,15 +3,11 @@ const scraper = require('./scraper')
 const app = express();
 const puppeteer = require('puppeteer');
 
+app.use(cors())
+
 // var timeout = express.timeout // express v3 and below
 var timeout = require('connect-timeout'); //express v4
 
-// app.use(haltOnTimedout);
-
-// function haltOnTimedout(req, res, next){
-//   if (!req.timedout) next();
-// }
-//Home page
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/index.html");
 });
