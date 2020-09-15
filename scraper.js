@@ -20,7 +20,7 @@ async function youtube(query, pageNum) {
         await sleep(1);
 
         let html = await page.content();
-        fs.writeFile('my-page1.html', $("#page-manager"), (error) => { 
+        fs.writeFile('my-page1.html', html, (error) => { 
             console.log("errorrrrr", error); 
             if (error) throw error;
                 console.log('saved file');
