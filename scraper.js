@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const request = require('request');
 const fs = require('fs');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 
 async function youtube(query, page) {
     const browser = await puppeteer.launch();
