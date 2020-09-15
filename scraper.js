@@ -4,10 +4,10 @@ const fs = require('fs');
 
 async function youtube(query, page) {
     const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(
+    const page1 = await browser.newPage();
+    await page1.goto(
         `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`, {waitUntil: 'networkidle'});
-    let html = await page.content();
+    let html = await page1.content();
 
     // Get the "viewport" of the page, as reported by the page.
     // await page.evaluate(() => {
