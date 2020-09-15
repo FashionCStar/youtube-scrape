@@ -21,7 +21,7 @@ async function youtube(query, page) {
                 // });
                 
                 // First attempt to parse old youtube search result style
-                $("#dismissable").each((index, vid) => {
+                $("ytd-video-renderer").each((index, vid) => {
                     json["parser"] = "html_format";
                     json.results.push(parseOldFormat($, vid));
                 });
