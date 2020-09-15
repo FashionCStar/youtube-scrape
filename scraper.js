@@ -8,8 +8,10 @@ const sleep = seconds =>
 
 async function youtube(query, pageNum) {
     const browser = await puppeteer.launch();
+    console.log("browser", browser);
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });
+    console.log("page", page);
     await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
     // await page.goto(
     //     `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`, {waitUntil: 'networkidle'});
