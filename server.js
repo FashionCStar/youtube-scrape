@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 
 //API route
 app.get('/api/search', async (req, res) => {
+  console.log("page info", req.query);
   scraper.youtube(req.query.q, req.query.page)
         .then(x => res.json(x))
         .catch(e => res.send(e));
