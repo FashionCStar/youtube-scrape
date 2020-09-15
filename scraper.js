@@ -5,8 +5,8 @@ const fs = require('fs');
 const sleep = seconds =>
     new Promise(resolve => setTimeout(resolve, (seconds || 1) * 1000));
 
-async function youtube(query, pageNum) {
-    const browser = await puppeteer.launch();
+async function youtube(browser, query, pageNum) {
+    // const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });
     await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
@@ -35,7 +35,6 @@ async function youtube(query, pageNum) {
     //     if (error) throw error;
     //         console.log('saved file');
     // });
-    await browser.close();
     return results;
 }
 

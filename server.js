@@ -16,10 +16,14 @@ app.get('/', (req, res) => {
 });
 
 //API route
-app.get('/api/search', (req, res) => {
-    scraper.youtube(req.query.q, req.query.page)
+app.get('/api/search', async (req, res) => {
+  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch();
+  scraper.youtube(browser, req.query.q, req.query.page)
         .then(x => res.json(x))
         .catch(e => res.send(e));
+        
+  await browser.close();
 });
 
 app.use(timeout(120000));
