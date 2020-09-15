@@ -10,21 +10,10 @@ const sleep = seconds =>
 async function youtube(query, pageNum) {
     try {
         const browser = await puppeteer.launch();
-    } catch (e) {
-        console.log("browser error", e);
-    }
-    try {
         const page = await browser.newPage();
         await page.setViewport({ width: 1280, height: 800 });
         await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
         console.log("ccccccccccc");
-    } catch (e) {
-        console.log("page error", e);
-    }
-    // await page.goto(
-    //     `https://www.youtube.com/results?q=${encodeURIComponent(query)}${page ? `&page=${page}` : ''}`, {waitUntil: 'networkidle'});
-
-    try {
         await page.waitForFunction(`document.title.indexOf('${query}') !== -1`, { timeout: 1000 });
         await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 1000 });
         await sleep(1);
