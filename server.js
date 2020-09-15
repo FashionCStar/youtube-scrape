@@ -1,6 +1,7 @@
 const express = require('express');
 const scraper = require('./scraper')
 const app = express();
+const puppeteer = require('puppeteer');
 
 // var timeout = express.timeout // express v3 and below
 var timeout = require('connect-timeout'); //express v4
