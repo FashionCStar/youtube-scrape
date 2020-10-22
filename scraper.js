@@ -12,7 +12,7 @@ async function youtube(query, pageNum) {
         const page = await browser.newPage();
         await page.setViewport({ width: 1280, height: 800 });
         console.log(query, "++++++++++++++++query, pagenum", pageNum);
-        await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`, {waitUntil: 'networkidle'});
+        await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`, {waitUntil: 'networkidle2'});
         await page.waitForFunction(`document.title.indexOf('${query}') !== -1`, { timeout: 10000 });
         await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 10000 });
         await sleep(1);
