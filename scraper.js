@@ -11,6 +11,7 @@ async function youtube(query, pageNum) {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.setViewport({ width: 1280, height: 800 });
+        console.log(query, "++++++++++++++++query, pagenum", pageNum);
         await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
         await page.waitForFunction(`document.title.indexOf('${query}') !== -1`, { timeout: 5000 });
         await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 5000 });
@@ -18,6 +19,7 @@ async function youtube(query, pageNum) {
 
         let html = await page.content();
         results = parse(html);
+        console.log("+++++++++++++++++++++after parse");
 
         await browser.close();
         return results;
@@ -52,6 +54,7 @@ function parse(html) {
        })
     });
 
+    console.log("+++++++++++++++++++++during parse");
     const cleaned = [];
     for (var i=0; i < results.length; i++) {
         let res = results[i];
@@ -68,7 +71,6 @@ function parse(html) {
         }
     }
 
-    console.log("result", cleaned);
     return {
         time: (new Date()).toUTCString(),
         results: cleaned,
