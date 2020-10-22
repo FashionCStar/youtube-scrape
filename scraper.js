@@ -12,13 +12,17 @@ async function youtube(query, pageNum) {
         const page = await browser.newPage();
         await page.setViewport({ width: 1280, height: 800 });
         console.log(query, "++++++++++++++++query, pagenum", pageNum);
-        await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`);
+        await page.goto(`https://www.youtube.com/results?q=${encodeURIComponent(query)}${pageNum ? `&page=${pageNum}` : ''}`, {waitUntil: 'networkidle'});
         await page.waitForFunction(`document.title.indexOf('${query}') !== -1`, { timeout: 10000 });
         await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 10000 });
         await sleep(1);
 
         let html = await page.content();
-        console.log("+++++++++++++++++++++before parse", html);
+        fs.writeFile('my-page1.html', html, (error) => { 
+            console.log("errorrrrr", error); 
+            if (error) throw error;
+                console.log('saved file');
+        });
         results = parse(html);
         console.log("+++++++++++++++++++++after parse");
 
